@@ -41,7 +41,7 @@ RUN apt-get update && \
 
 # Compile and install biber 2.19
 RUN if test -f $(which biber); then \
-        echo "biber is already installed with texlive!"; \
+        echo "biber is already installed with texlive!" ; \
     else \
         git clone https://github.com/plk/biber.git && \
         cd biber && \
