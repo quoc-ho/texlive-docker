@@ -13,6 +13,7 @@ COPY profile.input .
 RUN apt-get update && \
     apt-get install -y \
       python-is-python3 \
+      pip \
       git \
       wget \
       perl \
