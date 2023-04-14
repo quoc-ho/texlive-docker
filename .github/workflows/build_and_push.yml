@@ -25,20 +25,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push amd64
+        name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: phuquocvn/texlive:latest
-          build-args: TLARCH=x86_64-linux
-      -
-        name: Build and push aarch64
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/arm64
-          push: true
-          tags: phuquocvn/texlive:latest
-          build-args: TLARCH=aarch64-linux

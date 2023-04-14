@@ -1,9 +1,15 @@
-FROM ubuntu
+FROM ubuntu AS base
+
+FROM base AS base-amd64
+ENV PATH "$PATH:/usr/local/texlive/2023/bin/x86_64-linux"
+
+FROM base AS base-arm64
+ENV PATH "$PATH:/usr/local/texlive/2023/bin/aarch64-linux"
+
+ARG TARGETARCH
+FROM base-$TARGETARCH AS tlbuild
 
 WORKDIR /app
-
-# texlive arch: aarch64-linux or 
-ARG TLARCH 
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -32,8 +38,6 @@ RUN apt-get update && \
     mkdir /tmp/install-tl && \
     tar -xzf install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 && \
     /tmp/install-tl/install-tl --profile=/app/profile.input
-
-ENV PATH "$PATH:/usr/local/texlive/2023/bin/$TLARCH"
 
 # Compile and install biber 2.19
 RUN if test -f $(which biber); then \
