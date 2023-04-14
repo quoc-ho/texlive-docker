@@ -39,8 +39,8 @@ RUN apt-get update && \
     tar -xzf install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 && \
     /tmp/install-tl/install-tl --profile=/app/profile.input
 
-# Compile and install biber 2.19
-RUN if test -f $(which biber); then \
+# Compile and install biber 2.19 if not there yet
+RUN if [ -z "$(which biber)" ]; then \
         echo "biber is already installed with texlive!" ; \
     else \
         git clone https://github.com/plk/biber.git && \
@@ -50,7 +50,7 @@ RUN if test -f $(which biber); then \
         ./Build installdeps && \
         ./Build install && \
         cd .. && \
-        rm -rf biber; \
+        rm -rf biber ; \
     fi
 
 RUN apt-get clean -y
