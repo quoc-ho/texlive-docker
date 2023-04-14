@@ -36,17 +36,16 @@ RUN apt-get update && \
 ENV PATH "$PATH:/usr/local/texlive/2023/bin/$TLARCH"
 
 # Compile and install biber 2.19
-RUN if test -f $(which biber); \
-    then \
-        echo "biber is already installed with texlive!" \
+RUN if test -f $(which biber); then \
+        echo "biber is already installed with texlive!"; \
     else \
-        git clone https://github.com/plk/biber.git \
-        cd biber \
-        git checkout v2.19 \
-        perl Build.PL \
-        ./Build installdeps \
-        ./Build install \
-        cd .. \
+        git clone https://github.com/plk/biber.git && \
+        cd biber && \
+        git checkout v2.19 && \
+        perl Build.PL && \
+        ./Build installdeps && \
+        ./Build install && \
+        cd .. && \
         rm -rf biber; \
     fi
 
