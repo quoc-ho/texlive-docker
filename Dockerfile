@@ -53,4 +53,6 @@ RUN if [ -z "$(which biber)" ]; then \
         echo "biber is already installed with texlive!" ; \
     fi
 
-RUN apt-get clean -y
+RUN apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
