@@ -41,7 +41,8 @@ RUN apt-get update && \
       locales && \
     pip install arxiv-collector && \
     cpan App::cpanminus && \
-    cpanm YAML::Tiny File::HomeDir \ 
+    cpanm Module::Build CPAN::DistnameInfo && \
+    cpanm YAML::Tiny File::HomeDir && \ 
     wget --no-check-certificate http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
     mkdir /tmp/install-tl && \
     tar -xzf install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 && \
@@ -49,7 +50,6 @@ RUN apt-get update && \
 
 # Compile and install biber 2.19 if not there yet
 RUN if [ -z "$(which biber)" ]; then \
-        cpanm Module::Build CPAN::DistnameInfo YAML::Tiny File::HomeDir && \
         apt-get install -y gcc-aarch64-linux-gnu && \
         git clone https://github.com/plk/biber.git && \
         cd biber && \
