@@ -3,18 +3,18 @@ FROM ubuntu AS base
 ARG DEBIAN_FRONTEND=noninteractive
 
 FROM base AS base-amd64
-ENV PATH "$PATH:/usr/local/texlive/2023/bin/x86_64-linux"
+ENV PATH "$PATH:/usr/local/texlive/2024/bin/x86_64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2023/bin/x86_64-linux"\n@' /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2023/bin/x86_64-linux"\n@' /root/.bash_profile
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/x86_64-linux"\n@' /root/.bashrc && \
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/x86_64-linux"\n@' /root/.bash_profile
 
 FROM base AS base-arm64
-ENV PATH "$PATH:/usr/local/texlive/2023/bin/aarch64-linux"
+ENV PATH "$PATH:/usr/local/texlive/2024/bin/aarch64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2023/bin/aarch64-linux"\n@' /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2023/bin/aarch64-linux"\n@' /root/.bash_profile
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/aarch64-linux"\n@' /root/.bashrc && \
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/aarch64-linux"\n@' /root/.bash_profile
 
 ARG TARGETARCH
 FROM base-$TARGETARCH AS tlbuild
@@ -41,7 +41,7 @@ RUN apt-get update && \
       locales && \
     pip install arxiv-collector && \
     cpan App::cpanminus && \
-    cpanm Module::Build CPAN::DistnameInfo && \
+    cpanm YAML::Tiny File::HomeDir \ 
     wget --no-check-certificate http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
     mkdir /tmp/install-tl && \
     tar -xzf install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 && \
@@ -49,6 +49,7 @@ RUN apt-get update && \
 
 # Compile and install biber 2.19 if not there yet
 RUN if [ -z "$(which biber)" ]; then \
+        cpanm Module::Build CPAN::DistnameInfo YAML::Tiny File::HomeDir && \
         apt-get install -y gcc-aarch64-linux-gnu && \
         git clone https://github.com/plk/biber.git && \
         cd biber && \
