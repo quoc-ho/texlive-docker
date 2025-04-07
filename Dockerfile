@@ -28,6 +28,7 @@ RUN apt-get update && \
     apt-get install -y \
       python-is-python3 \
       pip \
+      pipx \
       git \
       wget \
       curl \
@@ -39,7 +40,7 @@ RUN apt-get update && \
       make \
       fontconfig \
       locales && \
-    pip install arxiv-collector && \
+    pipx install arxiv-collector && \
     cpan App::cpanminus && \
     cpanm Module::Build CPAN::DistnameInfo && \
     cpanm YAML::Tiny File::HomeDir && \ 
