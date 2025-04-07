@@ -3,18 +3,18 @@ FROM ubuntu AS base
 ARG DEBIAN_FRONTEND=noninteractive
 
 FROM base AS base-amd64
-ENV PATH "$PATH:/usr/local/texlive/2024/bin/x86_64-linux"
+ENV PATH "$PATH:/usr/local/texlive/2025/bin/x86_64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/x86_64-linux"\n@' /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/x86_64-linux"\n@' /root/.bash_profile
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/x86_64-linux"\n@' /root/.bashrc && \
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/x86_64-linux"\n@' /root/.bash_profile
 
 FROM base AS base-arm64
-ENV PATH "$PATH:/usr/local/texlive/2024/bin/aarch64-linux"
+ENV PATH "$PATH:/usr/local/texlive/2025/bin/aarch64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/aarch64-linux"\n@' /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2024/bin/aarch64-linux"\n@' /root/.bash_profile
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/aarch64-linux"\n@' /root/.bashrc && \
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/aarch64-linux"\n@' /root/.bash_profile
 
 ARG TARGETARCH
 FROM base-$TARGETARCH AS tlbuild
