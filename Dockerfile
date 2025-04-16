@@ -3,14 +3,14 @@ FROM ubuntu AS base
 ARG DEBIAN_FRONTEND=noninteractive
 
 FROM base AS base-amd64
-ENV PATH "$PATH:/usr/local/texlive/2025/bin/x86_64-linux"
+ENV PATH="$PATH:/usr/local/texlive/2025/bin/x86_64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
     sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/x86_64-linux"\n@' /root/.bashrc && \
     sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/x86_64-linux"\n@' /root/.bash_profile
 
 FROM base AS base-arm64
-ENV PATH "$PATH:/usr/local/texlive/2025/bin/aarch64-linux"
+ENV PATH="$PATH:/usr/local/texlive/2025/bin/aarch64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
     sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/aarch64-linux"\n@' /root/.bashrc && \
@@ -18,6 +18,8 @@ RUN touch /root/.bash_profile && \
 
 ARG TARGETARCH
 FROM base-$TARGETARCH AS tlbuild
+
+ENV PATH="$PATH:/root/.local/bin"
 
 WORKDIR /app
 
@@ -48,7 +50,9 @@ RUN apt-get update && \
     wget --no-check-certificate http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
     mkdir /tmp/install-tl && \
     tar -xzf install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 && \
-    /tmp/install-tl/install-tl --profile=/app/profile.input
+    /tmp/install-tl/install-tl --profile=/app/profile.input && \
+    sed -i '1s@^@export PATH="$PATH:/root/.local/bin"\n@' /root/.bashrc && \
+    sed -i '1s@^@export PATH="$PATH:/root/.local/bin"\n@' /root/.bash_profile
 
 # Compile and install biber 2.19 if not there yet
 RUN if [ -z "$(which biber)" ]; then \
