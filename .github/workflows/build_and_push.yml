@@ -51,7 +51,7 @@ jobs:
         with:
           platforms: linux/${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          tags: ${{ matrix.platform }}
+          tags: phuquocvn/texlive:2025-${{ matrix.platform }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
