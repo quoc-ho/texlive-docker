@@ -26,6 +26,7 @@ COPY profile.input .
 # Install texlive and packages
 RUN apt-get update && \
     apt-get install -y \
+      ssh \
       python-is-python3 \
       pip \
       pipx \
