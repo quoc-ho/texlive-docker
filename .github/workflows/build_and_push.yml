@@ -94,7 +94,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: phuquocvn/texlive
-          tags: latest
+          tags: 2025,latest
 
       - name: Create manifest list and push
         working-directory: ${{ runner.temp }}/digests
