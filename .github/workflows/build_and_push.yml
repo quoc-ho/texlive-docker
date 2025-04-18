@@ -102,9 +102,9 @@ jobs:
         with:
           images: phuquocvn/texlive
           tags: |
-            $ {{ steps.date.outputs.today }}
-            $ {{ steps.date.outputs.year }}
-            latest
+            type=raw,${{ steps.date.outputs.today }}
+            type=raw,${{ steps.date.outputs.year }}
+            type=raw,value=latest
 
       - name: Create manifest list and push
         working-directory: ${{ runner.temp }}/digests
