@@ -7,7 +7,7 @@ ENV PATH="$PATH:/usr/local/texlive/2026/bin/x86_64-linux"
 RUN touch /root/.bash_profile && \
     touch /root/.bashrc && \
     sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2026/bin/x86_64-linux"\n@' /root/.bashrc && \
-    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2025/bin/x86_64-linux"\n@' /root/.bash_profile
+    sed -i '1s@^@export PATH="$PATH:/usr/local/texlive/2026/bin/x86_64-linux"\n@' /root/.bash_profile
 
 FROM base AS base-arm64
 ENV PATH="$PATH:/usr/local/texlive/2026/bin/aarch64-linux"
