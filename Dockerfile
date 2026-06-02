@@ -44,9 +44,9 @@ RUN apt-get update && \
       fontconfig \
       locales && \
     pipx install arxiv-collector && \
-    cpan App::cpanminus && \
-    cpanm Module::Build CPAN::DistnameInfo && \
-    cpanm YAML::Tiny File::HomeDir && \ 
+    # cpan App::cpanminus && \
+    # cpanm Module::Build CPAN::DistnameInfo && \
+    # cpanm YAML::Tiny File::HomeDir && \ 
     wget --no-check-certificate http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
     mkdir /tmp/install-tl && \
     tar -xzf install-tl-unx.tar.gz -C /tmp/install-tl --strip-components=1 && \
@@ -55,19 +55,19 @@ RUN apt-get update && \
     sed -i '1s@^@export PATH="$PATH:/root/.local/bin"\n@' /root/.bash_profile
 
 # Compile and install biber 2.19 if not there yet
-RUN if [ -z "$(which biber)" ]; then \
-        apt-get install -y gcc-aarch64-linux-gnu && \
-        git clone https://github.com/plk/biber.git && \
-        cd biber && \
-        git checkout v2.19 && \
-        perl Build.PL && \
-        ./Build installdeps && \
-        ./Build install && \
-        cd .. && \
-        rm -rf biber ; \
-    else \
-        echo "biber is already installed with texlive!" ; \
-    fi
+# RUN if [ -z "$(which biber)" ]; then \
+#         apt-get install -y gcc-aarch64-linux-gnu && \
+#         git clone https://github.com/plk/biber.git && \
+#         cd biber && \
+#         git checkout v2.19 && \
+#         perl Build.PL && \
+#         ./Build installdeps && \
+#         ./Build install && \
+#         cd .. && \
+#         rm -rf biber ; \
+#     else \
+#         echo "biber is already installed with texlive!" ; \
+#     fi
 
 RUN apt-get autoremove -y \
     && apt-get clean -y \
